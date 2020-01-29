@@ -1,0 +1,31 @@
+{
+    "name": "two-p/flat-core",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "v0.0.1",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Page Didier",
+            "email": "page.didier@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
+    },
+    "require": {
+        "vkbansal/frontmatter": "~1.3",
+        "cebe/markdown": "~1.1",
+        "erusev/parsedown": "^1.7",
+        "erusev/parsedown-extra": "^0.7.1",
+        "slim/slim": "^3.12",
+        "slim/twig-view": "^2.5",
+        "swiftmailer/swiftmailer": "^6.0",
+        "ext-json": "*"
+    }
+}
