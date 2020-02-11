@@ -63,7 +63,8 @@ class Page
     public function getUrl(){
         $path = str_replace(content_path, '', $this->filePath);
         $path = current(explode('.', $path));
-        $path = str_replace('index', '', $path);
+        $path = str_replace('/index', '', $path);
+        if (!$path) $path = '/';;
         return $path;
     }
 
@@ -83,7 +84,7 @@ class Page
         //$Extra = new ParsedownExtra();
         // $parser = new ParsedownExtra();
         $parser = new \ParsedownExtra();
-        $parser->enableNewlines = true;
+        $parser->enableNewlines = false;
         return $parser->text($content);
     }
 
