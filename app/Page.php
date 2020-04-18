@@ -17,6 +17,7 @@ class Page
 
     private $filePath;
     private $parsedData;
+    private $module = null;
 
     /**
      * @param $path
@@ -27,6 +28,7 @@ class Page
         if(!$this->parsedData){
             $this->parsedData = Parser::parse(file_get_contents($this->filePath));
         }
+        $this->module = $this->creatModule();
     }
 
     /**
@@ -84,13 +86,34 @@ class Page
         //$Extra = new ParsedownExtra();
         // $parser = new ParsedownExtra();
         $parser = new \ParsedownExtra();
-        $parser->enableNewlines = false;
+        $parser->enableNewlines = true;
         return $parser->text($content);
     }
 
     //Called in function __get()
     private function parse_html($content){
         return $content;
+    }
+
+    private function creatModule(){
+        $module = $this->getYamlModule();
+         if(!$module) return;
+        switch ($module["name"]){
+            case 'gallery':
+                $module = new module\GalleryModule( str_replace(content_path,built_img_path,$this->filePath));
+
+                break;
+            case 'parentGallery':
+                $module = new module\ParentGalleryModule($this->filePath,$module["albums"]);
+                break;
+        }
+        return $module->getData();
+
+    }
+    private function getYamlModule(){
+        $method = '__get';
+        $modules = $this->$method('module');
+        return $modules;
     }
 
     //Called in function __get()
@@ -102,4 +125,13 @@ class Page
 
         return $layout;
     }
+
+    /**
+     * @return array|void|null
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
+
 }
